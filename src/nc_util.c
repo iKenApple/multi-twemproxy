@@ -65,12 +65,6 @@ int nc_set_reuseaddr(int sd) {
     reuse = 1;
     len = sizeof(reuse);
 
-#ifdef SO_REUSEPORT
-	if (setsockopt(sd, SOL_SOCKET, SO_REUSEPORT, &reuse, len) < 0) {
-		return -1;
-	}
-#endif
-
     return setsockopt(sd, SOL_SOCKET, SO_REUSEADDR, &reuse, len);
 }
 

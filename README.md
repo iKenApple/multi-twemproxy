@@ -2,10 +2,11 @@
 
 **twemproxy** (pronounced "two-em-proxy"), aka **nutcracker** is a fast and lightweight proxy for [memcached](http://www.memcached.org/) and [redis](http://redis.io/) protocol. It was built primarily to reduce the number of connections to the caching servers on the backend. This, together with protocol pipelining and sharding enables you to horizontally scale your distributed caching architecture.
 
-## 改进计划
-* 支持多进程，可利用到多核无需手工管理进程
-* 支持`REUSE_PORT`提升处理能力（需要Linux3.10或更高内核版本）
-* 支持CPU亲和性绑定，解决网络IO密集CPU0负载过高的问题
+## 改进点
+由于twemproxy的性能低于Redis的性能，因此为了简化部署过程，增加了多进程支持，通过-n参数项指定worker的数量。父进程作为管理进程，负责释放和重新启动异常关闭的工作子进程，每一个子进程负责twemproxy的功能。
+
+由于使用的Linux版本过低，不支持SO_REUSEPORT选项，因此端口复用通过更改core_ctx_create()初始化流程实现，具体请查看代码。
+
 
 ## Build
 

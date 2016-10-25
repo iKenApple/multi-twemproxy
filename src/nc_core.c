@@ -87,13 +87,7 @@ core_ctx_create(struct instance *nci)
         nc_free(ctx);
         return NULL;
     }
-
-#ifdef SO_REUSEPORT
-	if (core_worker_num > 1) {
-		core_master_loop(nci, ctx);
-	}
-#endif
-
+	
     /*
      * Get rlimit and calculate max client connections after we have
      * calculated max server connections
